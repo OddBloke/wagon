@@ -653,6 +653,11 @@ def get_source(source):
     if '://' in source:
         split = source.split('://')
         schema = split[0]
+        if schema == 'git+https':
+            # replace: git+https://github.com/cloudify-cosmo/wagon.git
+            # with:    https://github.com/cloudify-cosmo/wagon/archive/master.tar.gz
+            source = source.lstrip('git+').replace('.git', '/archive/master.tar.gz')
+            schema = 'https'
         if schema in ['file', 'http', 'https']:
             tmpdir = tempfile.mkdtemp()
             fd, tmpfile = tempfile.mkstemp()
