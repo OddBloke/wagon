@@ -813,7 +813,7 @@ def install(source,
             requirement_files=None,
             upgrade=False,
             ignore_platform=False,
-            install_args=''):
+            install_args=None):
     """Install a Wagon archive.
 
     This can install in a provided `venv` or in the current
@@ -1050,6 +1050,7 @@ def _create_wagon(args):
 
 
 def _install_wagon(args):
+    split_install_args = shlex.split(args.install_args) if args.install_args else []
     try:
         install(
             source=args.SOURCE,
@@ -1057,7 +1058,7 @@ def _install_wagon(args):
             requirement_files=args.requirements_file,
             upgrade=args.upgrade,
             ignore_platform=args.ignore_platform,
-            install_args=args.install_args)
+            install_args=split_install_args)
     except WagonError as ex:
         sys.exit(ex)
 
